@@ -1,0 +1,59 @@
+#include "stm32g4xx.h"
+
+// Function prototypes
+void delay_ms(uint32_t ms);
+void LPUART_Init(void);
+void LPUART_Transmit(uint8_t data);
+
+int main(void) {
+    // Initialize LPUART
+    LPUART_Init();
+
+    while (1) {
+        // Send a string via LPUART
+        char message[] = "Hello, LPUART!\r\n";
+        for (int i = 0; message[i] != '\0'; i++) {
+            LPUART_Transmit(message[i]);
+            delay_ms(10); // Add a small delay between characters
+        }
+
+        // Add a delay between messages
+        delay_ms(1000);
+    }
+}
+
+void delay_ms(uint32_t ms) {
+    // Simple delay function (not precise)
+    volatile uint32_t i, j;
+    for (i = 0; i < ms; i++)
+        for (j = 0; j < 2000; j++)
+            __NOP();
+}
+
+void LPUART_Init(void) {
+    // Enable LPUART1 clock
+    RCC->APB1ENR1 |= RCC_APB1ENR1_LPUART1EN;
+
+    // Configure GPIO for LPUART1
+    // Assuming PA2 -> LPUART1_TX
+    RCC->AHB2ENR |= RCC_AHB2ENR_GPIOAEN;
+    GPIOA->MODER &= ~GPIO_MODER_MODE2_Msk;
+    GPIOA->MODER |= GPIO_MODER_MODE2_1; // Alternate function mode
+    GPIOA->AFR[0] |= 0x08 << (2 * 4); // AF8 for LPUART1
+
+    // Configure LPUART1
+    LPUART1->CR1 &= ~LPUART_CR1_UE; // Disable LPUART
+    LPUART1->BRR = 417; // Baud rate 9600 @ 4MHz (adjust according to your system clock)
+    LPUART1->CR1 = LPUART_CR1_TE; // Enable Transmitter
+    LPUART1->CR1 |= LPUART_CR1_UE; // Enable LPUART
+}
+
+void LPUART_Transmit(uint8_t data) {
+    // Wait until Transmit Data Register (TDR) is empty
+    while (!(LPUART1->ISR & LPUART_ISR_TXE));
+
+    // Transmit data
+    LPUART1->TDR = data;
+}
+
+// You may need to implement other necessary functions based on your specific requirements.

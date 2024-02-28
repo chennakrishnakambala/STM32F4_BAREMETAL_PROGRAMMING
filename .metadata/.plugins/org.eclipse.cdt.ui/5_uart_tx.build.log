@@ -1,0 +1,99 @@
+17:11:56 **** Incremental Build of configuration Debug for project 5_uart_tx ****
+make -j12 all 
+arm-none-eabi-gcc "../Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32G4 -DNUCLEO_G474RE -DSTM32G474RETx -DSTM32G474xx -c -I../Inc -I"C:/Users/krishna/Desktop/baremetal_programming/chip_headers/CMSIS/Device/ST/STM32G4xx/Include" -I"C:/Users/krishna/Desktop/baremetal_programming/chip_headers/CMSIS/Include" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/main.d" -MT"Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/main.o"
+../Src/main.c: In function 'USART1_Init':
+../Src/main.c:7:44: error: 'RCC_APB2ENR_IOPAEN' undeclared (first use in this function); did you mean 'RCC_APB2ENR_SPI4EN'?
+    7 |     RCC->APB2ENR |= RCC_APB2ENR_USART1EN | RCC_APB2ENR_IOPAEN;
+      |                                            ^~~~~~~~~~~~~~~~~~
+      |                                            RCC_APB2ENR_SPI4EN
+../Src/main.c:7:44: note: each undeclared identifier is reported only once for each function it appears in
+../Src/main.c:10:10: error: 'GPIO_TypeDef' has no member named 'CRH'
+   10 |     GPIOA->CRH &= ~(GPIO_CRH_MODE9 | GPIO_CRH_CNF9);
+      |          ^~
+../Src/main.c:10:21: error: 'GPIO_CRH_MODE9' undeclared (first use in this function); did you mean 'GPIO_MODER_MODE9'?
+   10 |     GPIOA->CRH &= ~(GPIO_CRH_MODE9 | GPIO_CRH_CNF9);
+      |                     ^~~~~~~~~~~~~~
+      |                     GPIO_MODER_MODE9
+../Src/main.c:10:38: error: 'GPIO_CRH_CNF9' undeclared (first use in this function)
+   10 |     GPIOA->CRH &= ~(GPIO_CRH_MODE9 | GPIO_CRH_CNF9);
+      |                                      ^~~~~~~~~~~~~
+../Src/main.c:11:10: error: 'GPIO_TypeDef' has no member named 'CRH'
+   11 |     GPIOA->CRH |= GPIO_CRH_MODE9_1 | GPIO_CRH_CNF9_1;
+      |          ^~
+../Src/main.c:11:19: error: 'GPIO_CRH_MODE9_1' undeclared (first use in this function); did you mean 'GPIO_MODER_MODE9_1'?
+   11 |     GPIOA->CRH |= GPIO_CRH_MODE9_1 | GPIO_CRH_CNF9_1;
+      |                   ^~~~~~~~~~~~~~~~
+      |                   GPIO_MODER_MODE9_1
+../Src/main.c:11:38: error: 'GPIO_CRH_CNF9_1' undeclared (first use in this function)
+   11 |     GPIOA->CRH |= GPIO_CRH_MODE9_1 | GPIO_CRH_CNF9_1;
+      |                                      ^~~~~~~~~~~~~~~
+../Src/main.c:14:10: error: 'GPIO_TypeDef' has no member named 'CRH'
+   14 |     GPIOA->CRH &= ~(GPIO_CRH_MODE10 | GPIO_CRH_CNF10);
+      |          ^~
+../Src/main.c:14:21: error: 'GPIO_CRH_MODE10' undeclared (first use in this function); did you mean 'GPIO_ODR_OD10'?
+   14 |     GPIOA->CRH &= ~(GPIO_CRH_MODE10 | GPIO_CRH_CNF10);
+      |                     ^~~~~~~~~~~~~~~
+      |                     GPIO_ODR_OD10
+../Src/main.c:14:39: error: 'GPIO_CRH_CNF10' undeclared (first use in this function)
+   14 |     GPIOA->CRH &= ~(GPIO_CRH_MODE10 | GPIO_CRH_CNF10);
+      |                                       ^~~~~~~~~~~~~~
+../Src/main.c:15:10: error: 'GPIO_TypeDef' has no member named 'CRH'
+   15 |     GPIOA->CRH |= GPIO_CRH_CNF10_0;
+      |          ^~
+../Src/main.c:15:19: error: 'GPIO_CRH_CNF10_0' undeclared (first use in this function); did you mean 'GPIO_AFRH_AFSEL10_0'?
+   15 |     GPIOA->CRH |= GPIO_CRH_CNF10_0;
+      |                   ^~~~~~~~~~~~~~~~
+      |                   GPIO_AFRH_AFSEL10_0
+../Src/main.c: In function 'USART1_SendChar':
+../Src/main.c:24:22: error: 'USART_TypeDef' has no member named 'SR'; did you mean 'ISR'?
+   24 |     while (!(USART1->SR & USART_SR_TXE));  // Wait until TXE flag is set
+      |                      ^~
+      |                      ISR
+../Src/main.c:24:27: error: 'USART_SR_TXE' undeclared (first use in this function); did you mean 'USART_ISR_TXE'?
+   24 |     while (!(USART1->SR & USART_SR_TXE));  // Wait until TXE flag is set
+      |                           ^~~~~~~~~~~~
+      |                           USART_ISR_TXE
+../Src/main.c:25:13: error: 'USART_TypeDef' has no member named 'DR'; did you mean 'RDR'?
+   25 |     USART1->DR = c;  // Send the character
+      |             ^~
+      |             RDR
+../Src/main.c: In function 'USART1_ReceiveChar':
+../Src/main.c:29:22: error: 'USART_TypeDef' has no member named 'SR'; did you mean 'ISR'?
+   29 |     while (!(USART1->SR & USART_SR_RXNE));  // Wait until RXNE flag is set
+      |                      ^~
+      |                      ISR
+../Src/main.c:29:27: error: 'USART_SR_RXNE' undeclared (first use in this function); did you mean 'USART_ISR_RXNE'?
+   29 |     while (!(USART1->SR & USART_SR_RXNE));  // Wait until RXNE flag is set
+      |                           ^~~~~~~~~~~~~
+      |                           USART_ISR_RXNE
+../Src/main.c:30:20: error: 'USART_TypeDef' has no member named 'DR'; did you mean 'RDR'?
+   30 |     return USART1->DR;  // Read the received character
+      |                    ^~
+      |                    RDR
+../Src/main.c: In function 'main':
+../Src/main.c:44:21: error: 'RCC_APB2ENR_IOPCEN' undeclared (first use in this function); did you mean 'RCC_APB2ENR_SPI4EN'?
+   44 |     RCC->APB2ENR |= RCC_APB2ENR_IOPCEN;
+      |                     ^~~~~~~~~~~~~~~~~~
+      |                     RCC_APB2ENR_SPI4EN
+../Src/main.c:47:10: error: 'GPIO_TypeDef' has no member named 'CRH'
+   47 |     GPIOC->CRH &= ~GPIO_CRH_CNF13;
+      |          ^~
+../Src/main.c:47:20: error: 'GPIO_CRH_CNF13' undeclared (first use in this function)
+   47 |     GPIOC->CRH &= ~GPIO_CRH_CNF13;
+      |                    ^~~~~~~~~~~~~~
+../Src/main.c:48:10: error: 'GPIO_TypeDef' has no member named 'CRH'
+   48 |     GPIOC->CRH |= GPIO_CRH_MODE13_0;  // Output mode, max speed 10 MHz
+      |          ^~
+../Src/main.c:48:19: error: 'GPIO_CRH_MODE13_0' undeclared (first use in this function); did you mean 'GPIO_MODER_MODE13_0'?
+   48 |     GPIOC->CRH |= GPIO_CRH_MODE13_0;  // Output mode, max speed 10 MHz
+      |                   ^~~~~~~~~~~~~~~~~
+      |                   GPIO_MODER_MODE13_0
+../Src/main.c: In function 'USART1_ReceiveChar':
+../Src/main.c:31:1: warning: control reaches end of non-void function [-Wreturn-type]
+   31 | }
+      | ^
+make: *** [Src/subdir.mk:25: Src/main.o] Error 1
+"make -j12 all" terminated with exit code 2. Build might be incomplete.
+
+17:11:57 Build Failed. 24 errors, 1 warnings. (took 464ms)
+

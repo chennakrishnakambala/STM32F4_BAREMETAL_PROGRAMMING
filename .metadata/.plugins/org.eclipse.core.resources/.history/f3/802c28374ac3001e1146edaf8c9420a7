@@ -1,0 +1,63 @@
+
+
+#include "stm32g474xx.h"
+
+
+#define GPIOAEN				(1U<<0)
+#define GPIOCEN				(1U<<2)
+
+#define PIN5	         	 (1U<<5)
+#define PIN13	         	 (1U<<13)
+
+#define LED_PIN				PIN5
+#define BUTTON_PIN				PIN13
+
+#define NVIC_ISER1 *((int*)0xE000E104);
+
+int main()
+{		/*ENABLE GPIOA & GPIOC*/
+		RCC->AHB2ENR |=GPIOAEN;
+		RCC->AHB2ENR |=GPIOCEN;
+		RCC->APB2ENR |=0X1;
+
+		//SYSCFG->EXTICR4 |=(1U<<);
+		SYSCFG->EXTICR4 |=0x00000020;
+		/*SET PA5 AS OUTPUT PIN*/
+		GPIOA->MODER |=(1U<<10);
+		GPIOA->MODER &=~(1U<<11);
+
+
+
+
+		/*SET PC13 AS INPUT PIN*/
+		GPIOC->MODER &=~(1U<<26);
+		GPIOC->MODER &=~(1U<<27);
+
+		EXTI_IMR1 |=(1U<<13);
+		//EXTI_RTSR1 |=(1U<<13);
+		EXTI_FTSR1 |=(1U<<13);
+		DBGMCU_CR |0x1;
+		NVIC_ISER1 |=(1U<<8);
+		EXTI9_5
+
+
+	while(1){
+
+
+		/**/
+
+	if(GPIOC->IDR & BUTTON_PIN)  // we purform and operation with idr with button pin
+	{
+		GPIOA->BSRR = LED_PIN;
+
+		}
+	else{
+		GPIOA->BSRR = (1U<<21);
+
+	}
+
+
+
+
+}
+}

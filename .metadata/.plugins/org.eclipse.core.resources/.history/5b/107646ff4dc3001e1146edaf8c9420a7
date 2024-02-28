@@ -1,0 +1,65 @@
+
+
+#include "stm32g4xx.h"
+
+
+#define GPIOAEN				(1U<<0)
+#define GPIOCEN				(1U<<2)
+
+#define PIN5	         	 (1U<<5)
+#define PIN13	         	 (1U<<13)
+
+#define LED_PIN				PIN5
+#define BUTTON_PIN				PIN13
+
+//#define NVIC_ISER1 *((int*)0xE000E104);
+void Delay(void);
+int main()
+{
+	__disable_irq();
+
+	/*ENABLE GPIOA & GPIOC*/
+		RCC->AHB2ENR |=GPIOAEN;
+		RCC->AHB2ENR |=GPIOCEN;
+		RCC->APB2ENR |=(1<<0);
+
+
+		/*SET PA5 AS OUTPUT PIN*/
+		GPIOA->MODER |=(1U<<10);
+		GPIOA->MODER &=~(1U<<11);
+
+
+		SYSCFG->EXTICR(4) &= ~(1U<<5);
+		SYSCFG->EXTICR(4) |=(1U<<5);
+
+
+
+		/*SET PC13 AS INPUT PIN*/
+		//GPIOC->MODER &=~(1U<<26);
+		//GPIOC->MODER &=~(1U<<27);
+
+		EXTI_IMR1 |=(1U<<13);
+		//EXTI_RTSR1 |=(1U<<13);
+		EXTI_FTSR1 |=(1U<<13);
+		//DBGMCU_CR |0x1;
+		NVIC_EnableIRQ(EXTI15_10_IRQn);
+		__enable_irq();
+
+
+}
+void EXTI15_10IRQHandler(void)
+{
+	GPIOA->BSRR |=(1<<5);
+	Delay(2000);
+	GPIOA->BSRR |=(1<<21);
+
+	EXTI->PR1 |=(1<<13)
+}
+
+void Delay(void)
+
+
+{
+	int i;
+	for(i=0;i<58000;i++);
+}

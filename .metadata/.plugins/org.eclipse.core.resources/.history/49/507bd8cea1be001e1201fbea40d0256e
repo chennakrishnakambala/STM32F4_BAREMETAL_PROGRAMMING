@@ -1,0 +1,14 @@
+#include "stm32g474xx.h"
+
+#define GPIOAEN				(1U<<0)
+#define LPUART1
+int main()
+{
+	while(1){
+
+
+
+
+
+}
+}

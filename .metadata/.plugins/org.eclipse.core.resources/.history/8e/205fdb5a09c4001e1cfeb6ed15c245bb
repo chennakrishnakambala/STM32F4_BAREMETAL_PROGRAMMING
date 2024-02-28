@@ -1,0 +1,152 @@
+//#include "stm32g4xx.h"
+//
+//void GPIO_Init(void);
+//void EXTI_Init(void);
+//void NVIC_Configuration(void);
+//
+//int main(void)
+//{
+//  GPIO_Init();
+//  EXTI_Init();
+//  NVIC_Configuration();
+//
+//  while (1)
+//  {
+//    // Main program loop
+//  }
+//}
+//
+//void GPIO_Init(void)
+//{
+//  // Enable GPIOA and GPIOC clock
+//  RCC->AHB2ENR |= RCC_AHB2ENR_GPIOAEN | RCC_AHB2ENR_GPIOCEN;
+//
+//  // Configure PA5 as output (LED)
+//  GPIOA->MODER &= ~GPIO_MODER_MODE5_Msk;
+//  GPIOA->MODER |= GPIO_MODER_MODE5_0;
+//
+//  // Configure PC13 as input (Button)
+//  GPIOC->MODER &= ~GPIO_MODER_MODE13_Msk;
+//
+//  // Enable pull-up resistor for PC13
+//  GPIOC->PUPDR |= GPIO_PUPDR_PUPD13_0;
+//}
+//
+//void EXTI_Init(void)
+//{
+//  // Enable SYSCFG clock
+//  RCC->APB2ENR |= RCC_APB2ENR_SYSCFGEN;
+//
+//  // Connect EXTI13 to PC13
+//  SYSCFG->EXTICR[3] &= ~SYSCFG_EXTICR4_EXTI13_Msk;
+//
+//  // Configure EXTI13 to be triggered on a rising edge
+//  EXTI->RTSR1 |= EXTI_RTSR1_RT13;
+//
+//  // Enable EXTI13 interrupt
+//  EXTI->IMR1 |= EXTI_IMR1_IM13;
+//}
+//
+//void NVIC_Configuration(void)
+//{
+//  // Enable EXTI15_10_IRQn interrupt
+//  NVIC_EnableIRQ(EXTI15_10_IRQn);
+//
+//  // Set EXTI13 interrupt priority
+//  NVIC_SetPriority(EXTI15_10_IRQn, 1);
+//}
+//
+//void EXTI15_10_IRQHandler(void)
+//{
+//  // Clear the EXTI13 interrupt flag
+//  EXTI->PR1 |= EXTI_PR1_PIF13;
+//
+//  // Toggle the LED state
+//  GPIOA->ODR ^= GPIO_ODR_OD5;
+//}
+
+
+
+#include "stm32g4xx.h"
+
+
+
+
+
+//#define BUTTON_PIN				PIN13
+
+
+//#define EXTI_IMR1((int)0x4001 0400)
+//#define EXTI_FTSR1((int)0x4001 040C)
+//#define EXTI_PR1*((int*)0x4001 0414)
+//#define NVIC_ISER1 ((int)0xE000E104);
+
+void EXTI15_10_IRQHandler(void);
+void Delay(void);
+int main()
+{
+	__disable_irq();
+
+	///ENABLE GPIOA & GPIOC/
+		RCC->AHB2ENR |=(1<<0);
+		RCC->AHB2ENR |=(1<<2);
+		RCC->APB2ENR |=(1<<0);
+
+
+
+		//SET PA5 AS OUTPUT PIN/
+		GPIOA->MODER |=(1<<10);
+		//GPIOA->MODER &=~(1U<<11);
+
+
+		SYSCFG->EXTICR[4] &= ~(1<<5);
+		SYSCFG->EXTICR[4] |=(1<<5);
+
+
+
+		//SET PC13 AS INPUT PIN/
+		GPIOC->MODER &=~(1U<<26);
+		GPIOC->MODER &=~(1U<<27);
+		GPIOC->PUPDR  |=(1U<<26);
+		GPIOC->PUPDR  &=~(1U<<27);
+		EXTI->IMR1 |=(1U<<13);
+		//EXTI_RTSR1 |=(1U<<13);
+		EXTI->FTSR1 |=(1U<<13);
+		//DBGMCU_CR |0x1;
+		NVIC_EnableIRQ(EXTI15_10_IRQn);
+		__enable_irq();
+
+		while(1){
+
+		}
+
+
+
+}
+void EXTI15_10_IRQHandlerr(void)
+{
+
+	if(EXTI->PR1 & (0x1 <<13)){       //here checking pending register
+	//counter++;
+	GPIOA->ODR ^= (0x1<< 5);
+	//Delay();
+	EXTI->PR1 &= ~(0x1<< 13);
+
+
+	}
+}
+
+void Delay(void)
+
+
+{
+	int i;
+	for(i=0;i<2000;i++);
+}
+
+
+
+
+
+
+
